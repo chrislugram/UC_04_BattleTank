@@ -56,3 +56,4 @@ BattleTank/Intermediate/*
 
 # Cache files for the editor to use
 BattleTank/DerivedDataCache/*
+*.VC.db
