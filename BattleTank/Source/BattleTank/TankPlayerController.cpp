@@ -11,15 +11,29 @@ void ATankPlayerController::BeginPlay()
 
 	UE_LOG(LogTemp, Warning, TEXT("PlayerController Begin Play"));
 	APawn* pawn = GetPawn();
-	
-	UE_LOG(LogTemp, Warning, TEXT("Name pawn: %s"), *(pawn->GetName()));
-
 	ATank* tankPawn = Cast<ATank>(pawn);
-	UE_LOG(LogTemp, Warning, TEXT("Name pawn: %s"), *(tankPawn->GetName()));
+}
+
+void ATankPlayerController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	AimTowardsCrosshair();
 }
 #pragma endregion
 
 #pragma region METHODS
+void ATankPlayerController::AimTowardsCrosshair()
+{
+	if (!GetControlledTank())
+		return;
+
+	// Get world location if linetrace through crosshair
+	// If it hits tne landscape
+		// Tell controlled tank to aim at this point
+
+}
+
 ATank* ATankPlayerController::GetControlledTank() const
 {
 	return Cast<ATank>(GetPawn());
