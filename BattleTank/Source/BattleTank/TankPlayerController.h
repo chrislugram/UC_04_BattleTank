@@ -21,10 +21,15 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Aim")
 	float CrossHairYLocation;
 
+	UPROPERTY(EditAnywhere, Category = "Aim")
+	float LineTraceRange;
+
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
 	ATank* GetControlledTank() const;
 	void AimTowardsCrosshair();
 	bool GetSightRayHitLocation(FVector& HitLocation) const;
+	bool GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const;
+	bool GetLookVectorHitLocation(FVector LookDirection, FVector& HitLocation) const;
 };

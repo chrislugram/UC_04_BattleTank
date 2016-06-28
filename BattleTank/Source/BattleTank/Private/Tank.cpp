@@ -3,7 +3,7 @@
 #include "BattleTank.h"
 #include "Tank.h"
 
-
+#pragma region CONSTRUCTORS
 // Sets default values
 ATank::ATank()
 {
@@ -11,7 +11,9 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = true;
 
 }
+#pragma endregion
 
+#pragma region ENGINE
 // Called when the game starts or when spawned
 void ATank::BeginPlay()
 {
@@ -25,11 +27,19 @@ void ATank::Tick( float DeltaTime )
 	Super::Tick( DeltaTime );
 
 }
+#pragma endregion
 
+#pragma region METHODS
 // Called to bind functionality to input
 void ATank::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 {
 	Super::SetupPlayerInputComponent(InputComponent);
 
 }
+
+void ATank::AimAt(FVector AimLocation)
+{
+	UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *GetName(), *AimLocation.ToString());
+}
+#pragma endregion
 
