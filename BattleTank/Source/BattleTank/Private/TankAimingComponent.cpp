@@ -16,30 +16,54 @@ UTankAimingComponent::UTankAimingComponent()
 }
 #pragma endregion
 
-#pragma region ENGINE
-// Called when the game starts
-void UTankAimingComponent::BeginPlay()
+#pragma region METHODS
+void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* BarrelToSetup)
 {
-	Super::BeginPlay();
+	Barrel = BarrelToSetup;
+}
 
-	// ...
+void UTankAimingComponent::SetTurrentReference(UStaticMeshComponent* TurrentToSetup)
+{
+	Turrent = TurrentToSetup;
+}
+
+void UTankAimingComponent::AimAt(FVector AimLocation, float LaunchSpeed)
+{
+	if (!Barrel)
+		return;
+
+	FVector OutLaunchVelocity;
+	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
+
+	// Calculate de OutLauncVelocity
+	bool result = UGameplayStatics::SuggestProjectileVelocity(
+		this, OutLaunchVelocity, StartLocation, AimLocation, LaunchSpeed, ESuggestProjVelocityTraceOption::DoNotTrace
+	);
+
+	if (result)
+	{
+		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+		MoveBarrelTowards(AimDirection);
+	}
 	
 }
 
-
-// Called every frame
-void UTankAimingComponent::TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction )
+void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
-	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
+	// Get current barrel rotation
+	auto BarrelRotation = Barrel->GetForwardVector().Rotation();
 
-	// ...
-}
-#pragma endregion
+	// Get new barrel rotation
+	auto AimAsRotator = AimDirection.Rotation();
 
-#pragma region METHODS
-void UTankAimingComponent::AimAt(FVector AimLocation)
-{
-	UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *(GetOwner()->GetName()), *AimLocation.ToString());
+	// Delta between both rotations
+	auto DeltaRotator = AimAsRotator - BarrelRotation;
+
+	// Check if aim direction is between limits
+		// If not, change AimDirection
+
+	// Create FRotator
+	// Set the FRotator of the Barrel
 }
 #pragma endregion
 

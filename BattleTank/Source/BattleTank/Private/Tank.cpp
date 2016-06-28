@@ -41,7 +41,12 @@ void ATank::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 
 void ATank::AimAt(FVector AimLocation)
 {
-	TankAimingComponent->AimAt(AimLocation);
+	TankAimingComponent->AimAt(AimLocation, LaunchSpeed);
+}
+
+void ATank::SetBarrelReference(UStaticMeshComponent* Barrel)
+{
+	TankAimingComponent->SetBarrelReference(Barrel);
 }
 #pragma endregion
 
