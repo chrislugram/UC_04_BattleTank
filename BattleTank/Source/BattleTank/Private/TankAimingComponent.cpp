@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "BattleTank.h"
+#include "Public/TankBarrel.h"
 #include "TankAimingComponent.h"
 
 #pragma region CONSTRUCTORS
@@ -17,14 +18,9 @@ UTankAimingComponent::UTankAimingComponent()
 #pragma endregion
 
 #pragma region METHODS
-void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* BarrelToSetup)
+void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSetup)
 {
 	Barrel = BarrelToSetup;
-}
-
-void UTankAimingComponent::SetTurrentReference(UStaticMeshComponent* TurrentToSetup)
-{
-	Turrent = TurrentToSetup;
 }
 
 void UTankAimingComponent::AimAt(FVector AimLocation, float LaunchSpeed)
@@ -50,15 +46,11 @@ void UTankAimingComponent::AimAt(FVector AimLocation, float LaunchSpeed)
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
-	// Get current barrel rotation
-	auto BarrelRotation = Barrel->GetForwardVector().Rotation();
+	auto BarrelRotation = Barrel->GetForwardVector().Rotation();	// Get current barrel rotation
+	auto AimAsRotator = AimDirection.Rotation();					// Get new barrel rotation
+	auto DeltaRotator = AimAsRotator - BarrelRotation;				// Delta between both rotations
 
-	// Get new barrel rotation
-	auto AimAsRotator = AimDirection.Rotation();
-
-	// Delta between both rotations
-	auto DeltaRotator = AimAsRotator - BarrelRotation;
-
+	Barrel->Elevate(5);
 	// Check if aim direction is between limits
 		// If not, change AimDirection
 
