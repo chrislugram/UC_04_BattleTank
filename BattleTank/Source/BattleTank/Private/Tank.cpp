@@ -23,14 +23,18 @@ void ATank::BeginPlay()
 	Super::BeginPlay();
 	
 }
-#pragma endregion
 
-#pragma region METHODS
 // Called to bind functionality to input
 void ATank::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 {
 	Super::SetupPlayerInputComponent(InputComponent);
+}
+#pragma endregion
 
+#pragma region METHODS
+void ATank::Fire()
+{
+	UE_LOG(LogTemp, Warning, TEXT("FIRE!!! %f"));
 }
 
 void ATank::AimAt(FVector AimLocation)

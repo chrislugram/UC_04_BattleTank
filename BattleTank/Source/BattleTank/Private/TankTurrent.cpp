@@ -6,8 +6,6 @@
 #pragma region METHODS
 void UTankTurrent::Rotate(float RelativeSpeed)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Turrent rotation %f"), RelativeSpeed);
-
 	RelativeSpeed = FMath::Clamp<float>(RelativeSpeed, -1, 1);									// Clamp the relative space, protection	
 
 	auto RotationChange = RelativeSpeed * MaxDegreesPerSecond * GetWorld()->DeltaTimeSeconds;	// Rotation change this frame
