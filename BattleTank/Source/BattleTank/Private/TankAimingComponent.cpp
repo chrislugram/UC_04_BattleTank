@@ -33,13 +33,18 @@ void UTankAimingComponent::AimAt(FVector AimLocation, float LaunchSpeed)
 
 	// Calculate de OutLauncVelocity
 	bool result = UGameplayStatics::SuggestProjectileVelocity(
-		this, OutLaunchVelocity, StartLocation, AimLocation, LaunchSpeed, ESuggestProjVelocityTraceOption::DoNotTrace
+		this, OutLaunchVelocity, StartLocation, AimLocation, LaunchSpeed, false, 0, 0, ESuggestProjVelocityTraceOption::DoNotTrace
 	);
 
 	if (result)
 	{
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
+		UE_LOG(LogTemp, Warning, TEXT("con solucion"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("sin solucion"));
 	}
 	
 }
@@ -50,12 +55,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	auto AimAsRotator = AimDirection.Rotation();					// Get new barrel rotation
 	auto DeltaRotator = AimAsRotator - BarrelRotation;				// Delta between both rotations
 
-	Barrel->Elevate(5);
-	// Check if aim direction is between limits
-		// If not, change AimDirection
-
-	// Create FRotator
-	// Set the FRotator of the Barrel
+	Barrel->Elevate(DeltaRotator.Pitch);
 }
 #pragma endregion
 
