@@ -2,6 +2,7 @@
 
 #include "BattleTank.h"
 #include "Public/TankBarrel.h"
+#include "Public/TankTurrent.h"
 #include "TankAimingComponent.h"
 
 #pragma region CONSTRUCTORS
@@ -11,7 +12,7 @@ UTankAimingComponent::UTankAimingComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	bWantsBeginPlay = true;
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 
 	// ...
 }
@@ -20,7 +21,14 @@ UTankAimingComponent::UTankAimingComponent()
 #pragma region METHODS
 void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSetup)
 {
+	if (!BarrelToSetup) { return; }
 	Barrel = BarrelToSetup;
+}
+
+void UTankAimingComponent::SetTurrentReference(UTankTurrent* TurrentToSetup)
+{
+	if (!TurrentToSetup) { return; }
+	Turrent = TurrentToSetup;
 }
 
 void UTankAimingComponent::AimAt(FVector AimLocation, float LaunchSpeed)
@@ -40,11 +48,12 @@ void UTankAimingComponent::AimAt(FVector AimLocation, float LaunchSpeed)
 	{
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
-		UE_LOG(LogTemp, Warning, TEXT("con solucion"));
+		MoveTurrentTowards(AimDirection);
+		//UE_LOG(LogTemp, Warning, TEXT("con solucion"));
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("sin solucion"));
+		//UE_LOG(LogTemp, Warning, TEXT("sin solucion"));
 	}
 	
 }
@@ -56,6 +65,15 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	auto DeltaRotator = AimAsRotator - BarrelRotation;				// Delta between both rotations
 
 	Barrel->Elevate(DeltaRotator.Pitch);
+}
+
+void UTankAimingComponent::MoveTurrentTowards(FVector AimDirection)
+{
+	auto TurrenRotation = Turrent->GetForwardVector().Rotation();
+	auto AimAsRotator = AimDirection.Rotation();
+	auto DeltaRotator = AimAsRotator - TurrenRotation;
+
+	Turrent->Rotate(DeltaRotator.Yaw);
 }
 #pragma endregion
 

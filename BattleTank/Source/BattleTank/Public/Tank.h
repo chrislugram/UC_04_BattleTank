@@ -6,6 +6,7 @@
 #include "Tank.generated.h"
 
 class UTankBarrel;
+class UTankTurrent;
 class UTankAimingComponent;
 
 UCLASS()
@@ -21,6 +22,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void SetBarrelReference(UTankBarrel* Barrel);
+
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	void SetTurrentReference(UTankTurrent* Turrent);
 
 protected:
 	UTankAimingComponent* TankAimingComponent = nullptr;

@@ -42,5 +42,10 @@ void ATank::SetBarrelReference(UTankBarrel* Barrel)
 {
 	TankAimingComponent->SetBarrelReference(Barrel);
 }
+
+void ATank::SetTurrentReference(UTankTurrent* Turrent)
+{
+	TankAimingComponent->SetTurrentReference(Turrent);
+}
 #pragma endregion
 
