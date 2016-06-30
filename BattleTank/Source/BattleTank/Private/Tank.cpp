@@ -4,6 +4,7 @@
 #include "TankBarrel.h"
 #include "Projectile.h"
 #include "TankAimingComponent.h"
+#include "TankMovementComponent.h"
 #include "Tank.h"
 
 #pragma region CONSTRUCTORS
@@ -15,6 +16,9 @@ ATank::ATank()
 
 	// Setup TankAimingComponent
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Tank Aiming Component"));
+
+	// Setup TankAimingComponent
+	TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("Tank Movement Component"));
 }
 #pragma endregion
 
