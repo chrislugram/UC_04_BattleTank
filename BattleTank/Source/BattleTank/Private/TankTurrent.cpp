@@ -11,8 +11,6 @@ void UTankTurrent::Rotate(float RelativeSpeed)
 	auto RotationChange = RelativeSpeed * MaxDegreesPerSecond * GetWorld()->DeltaTimeSeconds;	// Rotation change this frame
 	auto NewRotation = RelativeRotation.Yaw + RotationChange;							// Calculating the new rotation
 
-	NewRotation = FMath::Clamp(NewRotation, MinDegreesRotation, MaxDegreesRotation);	// Clamp the new rotation
-
 	SetRelativeRotation(FRotator(0, NewRotation, 0));
 }
 #pragma endregion
