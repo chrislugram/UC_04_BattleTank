@@ -18,11 +18,11 @@ public:
 	
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "Turrent Movement")
-		float MaxDegreesPerSecond = 10;
+	float MaxDegreesPerSecond = 10;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Turrent Movement")
-		float MaxDegreesRotation = 60;
+	float MaxDegreesRotation = 90;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Turrent Movement")
-		float MinDegreesRotation = -60;
+	float MinDegreesRotation = -90;
 };
