@@ -1,7 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "BattleTank.h"
-#include "Public/TankAimingComponent.h"
+#include "TankBarrel.h"
+#include "Projectile.h"
+#include "TankAimingComponent.h"
 #include "Tank.h"
 
 #pragma region CONSTRUCTORS
@@ -35,6 +37,15 @@ void ATank::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 void ATank::Fire()
 {
 	UE_LOG(LogTemp, Warning, TEXT("FIRE!!! %f"));
+	if (!Barrel)
+		return;
+
+	
+	GetWorld()->SpawnActor<AProjectile>(
+		ProjectileBlueprint,
+		Barrel->GetSocketLocation(FName("Projectile")),
+		Barrel->GetSocketRotation(FName("Projectile"))
+	);
 }
 
 void ATank::AimAt(FVector AimLocation)
@@ -42,14 +53,15 @@ void ATank::AimAt(FVector AimLocation)
 	TankAimingComponent->AimAt(AimLocation, LaunchSpeed);
 }
 
-void ATank::SetBarrelReference(UTankBarrel* Barrel)
+void ATank::SetBarrelReference(UTankBarrel* BarrelToSetup)
 {
-	TankAimingComponent->SetBarrelReference(Barrel);
+	TankAimingComponent->SetBarrelReference(BarrelToSetup);
+	Barrel = BarrelToSetup;
 }
 
-void ATank::SetTurrentReference(UTankTurrent* Turrent)
+void ATank::SetTurrentReference(UTankTurrent* TurrentToSetup)
 {
-	TankAimingComponent->SetTurrentReference(Turrent);
+	TankAimingComponent->SetTurrentReference(TurrentToSetup);
 }
 #pragma endregion
 
