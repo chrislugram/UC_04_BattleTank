@@ -9,24 +9,21 @@ void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// Example
-	UE_LOG(LogTemp, Warning, TEXT("AIController Begin Play"));
-	APawn* pawn = GetPawn();
-	Tank = Cast<ATank>(pawn);
-
-	// Find the player tank
+	Tank = GetControlledTank();
 	PlayerTank = GetPlayerTank();
-	if (PlayerTank == nullptr)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Player tank not found"));
-	}
+
+	UE_LOG(LogTemp, Warning, TEXT("I'm %s, and aim to %s "), *Tank->GetName(), *PlayerTank->GetName());
 }
 
 void ATankAIController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
+	// Aim
 	Tank->AimAt(PlayerTank->GetActorLocation());
+
+	// Fire
+	Tank->Fire();
 }
 #pragma endregion
 

@@ -23,6 +23,6 @@ public:
 	void LaunchProjectile(float LaunchSpeed);
 
 private:
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	UProjectileMovementComponent* ProjectileMovement = nullptr;
 };

@@ -17,12 +17,12 @@ public:
 	void Rotate(float RelativeSpeed);
 	
 private:
-	UPROPERTY(EditAnywhere, Category = "Turrent Movement")
+	UPROPERTY(EditDefaultsOnly, Category = "Turrent Movement")
 		float MaxDegreesPerSecond = 10;
 
-	UPROPERTY(EditAnywhere, Category = "Turrent Movement")
+	UPROPERTY(EditDefaultsOnly, Category = "Turrent Movement")
 		float MaxDegreesRotation = 60;
 
-	UPROPERTY(EditAnywhere, Category = "Turrent Movement")
+	UPROPERTY(EditDefaultsOnly, Category = "Turrent Movement")
 		float MinDegreesRotation = -60;
 };
