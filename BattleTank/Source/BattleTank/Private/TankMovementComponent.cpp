@@ -8,25 +8,28 @@
 #pragma region METHODS
 void UTankMovementComponent::Initialise(UTankTrack* Left, UTankTrack* Right)
 {
-	if (Left == nullptr || Right == nullptr)
-		return;
-
 	LeftTrack = Left;
 	RightTrack = Right;
 }
 
 void UTankMovementComponent::IntendMoveForward(float Throw)
 {
-	UE_LOG(LogTemp, Warning, TEXT(" Intend move forward throw %f"), Throw);
-	
+	if (LeftTrack == nullptr || RightTrack == nullptr)
+		return;
+
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(Throw);
 	// TODO: Prevent double-speed due to dual control use
 }
 
-void UTankMovementComponent::IntendRotate(float Rotate)
+void UTankMovementComponent::IntendRotate(float Throw)
 {
-	UE_LOG(LogTemp, Warning, TEXT(" Intend rotate  %f"), Rotate);
+	if (LeftTrack == nullptr || RightTrack == nullptr)
+		return;
+
+	LeftTrack->SetThrottle(Throw);
+	RightTrack->SetThrottle(-Throw);
+	// TODO: Prevent double-speed due to dual control use
 }
 #pragma endregion
 
