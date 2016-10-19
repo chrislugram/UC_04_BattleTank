@@ -25,6 +25,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Movement")
 	void IntendRotate(float Rotate);
 
+	// TODO check best protection
+	void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
+
 private:
 	UTankTrack* LeftTrack = nullptr;
 	UTankTrack* RightTrack = nullptr;

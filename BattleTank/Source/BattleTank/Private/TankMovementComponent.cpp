@@ -31,5 +31,16 @@ void UTankMovementComponent::IntendRotate(float Throw)
 	RightTrack->SetThrottle(-Throw);
 	// TODO: Prevent double-speed due to dual control use
 }
+
+void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
+{
+	FVector TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();
+	FVector AIForwardIntention = MoveVelocity.GetSafeNormal();
+
+	float ForwardThrow = FVector::DotProduct(TankForward, AIForwardIntention);
+	IntendMoveForward(ForwardThrow);
+
+	//UE_LOG(LogTemp, Warning, TEXT("Tank %s, velocity: %s"), *(GetOwner()->GetName()), *MoveVelocity.GetSafeNormal().ToString());
+}
 #pragma endregion
 

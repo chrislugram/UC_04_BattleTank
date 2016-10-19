@@ -19,11 +19,17 @@ void ATankAIController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	// Aim
-	Tank->AimAt(PlayerTank->GetActorLocation());
+	if (PlayerTank)
+	{
+		// Move towards the actor
+		MoveToActor(PlayerTank, AcceptanceRadius);
 
-	// Fire
-	Tank->Fire();
+		// Aim
+		Tank->AimAt(PlayerTank->GetActorLocation());
+
+		// Fire
+		Tank->Fire();
+	}
 }
 #pragma endregion
 
