@@ -22,7 +22,7 @@ void UTankMovementComponent::IntendMoveForward(float Throw)
 	// TODO: Prevent double-speed due to dual control use
 }
 
-void UTankMovementComponent::IntendRotate(float Throw)
+void UTankMovementComponent::IntendTurnRight(float Throw)
 {
 	if (LeftTrack == nullptr || RightTrack == nullptr)
 		return;
@@ -40,6 +40,9 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 	float ForwardThrow = FVector::DotProduct(TankForward, AIForwardIntention);
 	IntendMoveForward(ForwardThrow);
 
+	FVector RightThrow = FVector::CrossProduct(TankForward, AIForwardIntention);
+	IntendTurnRight(RightThrow.Z);
+	
 	//UE_LOG(LogTemp, Warning, TEXT("Tank %s, velocity: %s"), *(GetOwner()->GetName()), *MoveVelocity.GetSafeNormal().ToString());
 }
 #pragma endregion

@@ -23,7 +23,7 @@ public:
 	void IntendMoveForward(float Throw);
 
 	UFUNCTION(BlueprintCallable, Category = "Movement")
-	void IntendRotate(float Rotate);
+	void IntendTurnRight(float Rotate);
 
 	// TODO check best protection
 	void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
