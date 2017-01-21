@@ -13,22 +13,14 @@ UTankAimingComponent::UTankAimingComponent()
 	// off to improve performance if you don't need them.
 	bWantsBeginPlay = true;
 	PrimaryComponentTick.bCanEverTick = false;
-
-	// ...
 }
 #pragma endregion
 
 #pragma region METHODS
-void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSetup)
+void UTankAimingComponent::Initialise(UTankBarrel* barrel, UTankTurrent* turret)
 {
-	if (!BarrelToSetup) { return; }
-	Barrel = BarrelToSetup;
-}
-
-void UTankAimingComponent::SetTurrentReference(UTankTurrent* TurrentToSetup)
-{
-	if (!TurrentToSetup) { return; }
-	Turrent = TurrentToSetup;
+	Barrel = barrel;
+	Turret = turret;
 }
 
 void UTankAimingComponent::AimAt(FVector AimLocation, float LaunchSpeed)
@@ -60,6 +52,8 @@ void UTankAimingComponent::AimAt(FVector AimLocation, float LaunchSpeed)
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
+	if (!Barrel || !Turret) { return; }
+
 	auto BarrelRotation = Barrel->GetForwardVector().Rotation();	// Get current barrel rotation
 	auto AimAsRotator = AimDirection.Rotation();					// Get new barrel rotation
 	auto DeltaRotator = AimAsRotator - BarrelRotation;				// Delta between both rotations
@@ -69,11 +63,13 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 
 void UTankAimingComponent::MoveTurrentTowards(FVector AimDirection)
 {
-	auto TurrenRotation = Turrent->GetForwardVector().Rotation();
+	if (!Barrel || !Turret) { return; }
+
+	auto TurrenRotation = Turret->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - TurrenRotation;
 
-	Turrent->Rotate(DeltaRotator.Yaw);
+	Turret->Rotate(DeltaRotator.Yaw);
 }
 #pragma endregion
 

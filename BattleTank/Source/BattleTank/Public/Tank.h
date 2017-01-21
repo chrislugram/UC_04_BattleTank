@@ -6,7 +6,7 @@
 #include "Tank.generated.h"
 
 class UTankBarrel;
-class UTankTurrent;
+class UTankTurret;
 class UTankAimingComponent;
 class UTankMovementComponent;
 class AProjectile;
@@ -21,12 +21,6 @@ public:
 	ATank();
 
 	void AimAt(FVector AimLocation);
-
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void SetBarrelReference(UTankBarrel* BarrelToSetup);
-
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void SetTurrentReference(UTankTurrent* TurrentToSetup);
 
 	UFUNCTION(BlueprintCallable, Category = "Fire")
 	void Fire();
@@ -54,9 +48,9 @@ private:
 	UTankBarrel* Barrel = nullptr;
 
 	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	//virtual void BeginPlay() override;
 
 	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
+	//virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
 };
