@@ -13,6 +13,17 @@ ATank::ATank()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
+	
+	UE_LOG(LogTemp, Warning, TEXT("CLR: Tank Constructred"));
+}
+#pragma endregion
+
+#pragma region ENGINE
+void ATank::BeginPlay()
+{
+	Super::BeginPlay();
+
+	UE_LOG(LogTemp, Warning, TEXT("CLR: Tank BeginPlay"));
 }
 #pragma endregion
 
@@ -37,7 +48,8 @@ void ATank::Fire()
 
 void ATank::AimAt(FVector AimLocation)
 {
-	TankAimingComponent->AimAt(AimLocation, LaunchSpeed);
+	if (TankAimingComponent)
+		TankAimingComponent->AimAt(AimLocation, LaunchSpeed);
 }
 #pragma endregion
 
