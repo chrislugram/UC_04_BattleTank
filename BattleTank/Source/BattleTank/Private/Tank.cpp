@@ -4,7 +4,6 @@
 #include "TankBarrel.h"
 #include "Projectile.h"
 #include "TankAimingComponent.h"
-#include "TankMovementComponent.h"
 #include "Tank.h"
 
 #pragma region CONSTRUCTORS
@@ -14,7 +13,7 @@ ATank::ATank()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 	
-	UE_LOG(LogTemp, Warning, TEXT("CLR: Tank Constructred"));
+	//UE_LOG(LogTemp, Warning, TEXT("CLR: Tank Constructred"));
 }
 #pragma endregion
 
@@ -23,7 +22,7 @@ void ATank::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UE_LOG(LogTemp, Warning, TEXT("CLR: Tank BeginPlay"));
+	//UE_LOG(LogTemp, Warning, TEXT("CLR: Tank BeginPlay"));
 }
 #pragma endregion
 

@@ -8,7 +8,6 @@
 class UTankBarrel;
 class UTankTurret;
 class UTankAimingComponent;
-class UTankMovementComponent;
 class AProjectile;
 
 UCLASS()
@@ -29,9 +28,6 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category = "Aiming")
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
-	UPROPERTY(BlueprintReadOnly, Category = "Movement")
-	UTankMovementComponent* TankMovementComponent = nullptr;
-
 private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
@@ -49,8 +45,4 @@ private:
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-	// Called to bind functionality to input
-	//virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
-
 };
