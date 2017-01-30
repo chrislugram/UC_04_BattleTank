@@ -33,7 +33,7 @@ public:
 	void MoveTurrentTowards(FVector AimDirection);
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
-	EFiringStatus firingStatus = EFiringStatus::AIMING;
+	EFiringStatus firingStatus = EFiringStatus::LOCKED;
 
 private:
 	// Sets default values for this component's properties

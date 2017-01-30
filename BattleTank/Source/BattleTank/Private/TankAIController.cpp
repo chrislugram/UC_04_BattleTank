@@ -19,7 +19,7 @@ void ATankAIController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	if (PlayerTank)
+	if (ensure(PlayerTank))
 	{
 		// Move towards the actor
 		MoveToActor(PlayerTank, AcceptanceRadius);
@@ -42,21 +42,21 @@ ATank* ATankAIController::GetControlledTank() const
 ATank* ATankAIController::GetPlayerTank() const
 {
 	APlayerController* playerController = GetWorld()->GetFirstPlayerController();
-	if (playerController == nullptr)
+	if (!ensure(playerController))
 	{
 		UE_LOG(LogTemp, Error, TEXT("PlayerController NOT FOUND"));
 		return nullptr;
 	}
 
 	APawn* pawnPossesed = playerController->GetPawn();
-	if (pawnPossesed == nullptr)
+	if (!ensure(pawnPossesed))
 	{
 		UE_LOG(LogTemp, Error, TEXT("Pawn possesed NOT FOUND"));
 		return nullptr;
 	}
 
 	ATank* playerTank = Cast<ATank>(pawnPossesed);
-	if (playerTank == nullptr)
+	if (!ensure(playerTank))
 	{
 		UE_LOG(LogTemp, Error, TEXT("Cast to ATank error"));
 		return nullptr;

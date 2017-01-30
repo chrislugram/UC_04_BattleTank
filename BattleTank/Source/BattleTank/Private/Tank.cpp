@@ -30,9 +30,11 @@ void ATank::BeginPlay()
 #pragma region METHODS
 void ATank::Fire()
 {
+	if (!ensure(Barrel)) { return; }
+
 	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeSeconds;
 
-	if (Barrel && isReloaded)
+	if (isReloaded)
 	{
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
 			ProjectileBlueprint,
@@ -48,7 +50,7 @@ void ATank::Fire()
 
 void ATank::AimAt(FVector AimLocation)
 {
-	if (TankAimingComponent)
+	if (ensure(TankAimingComponent))
 		TankAimingComponent->AimAt(AimLocation, LaunchSpeed);
 }
 #pragma endregion

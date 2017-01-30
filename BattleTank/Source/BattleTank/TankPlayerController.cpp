@@ -2,6 +2,7 @@
 
 #include "BattleTank.h"
 #include "Public/Tank.h"
+#include "TankAimingComponent.h"
 #include "TankPlayerController.h"
 
 
@@ -10,7 +11,17 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UE_LOG(LogTemp, Warning, TEXT("PlayerController Begin Play"));
+	auto aimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+
+	if (ensure(aimingComponent))
+	{
+		FoundAimingComponent(aimingComponent);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Aimimng Component NOT FOUND"));
+	}
+
 	APawn* pawn = GetPawn();
 	ATank* tankPawn = Cast<ATank>(pawn);
 }
@@ -26,8 +37,7 @@ void ATankPlayerController::Tick(float DeltaTime)
 #pragma region METHODS
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (!GetControlledTank())
-		return;
+	if (!ensure(GetControlledTank())) { return; }
 
 	FVector HitLocation; // out parameter
 
