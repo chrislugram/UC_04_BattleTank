@@ -23,9 +23,8 @@ void UTankAimingComponent::Initialise(UTankBarrel* barrel, UTankTurrent* turret)
 	Turret = turret;
 }
 
-void UTankAimingComponent::AimAt(FVector AimLocation, float LaunchSpeed)
+void UTankAimingComponent::AimAt(FVector AimLocation)
 {
-	// TODO: Barrel is nullptr
 	if (!ensure(Barrel)) { return; }
 
 	FVector OutLaunchVelocity;
@@ -41,18 +40,12 @@ void UTankAimingComponent::AimAt(FVector AimLocation, float LaunchSpeed)
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
 		MoveTurrentTowards(AimDirection);
-		//UE_LOG(LogTemp, Warning, TEXT("con solucion"));
 	}
-	else
-	{
-		//UE_LOG(LogTemp, Warning, TEXT("sin solucion"));
-	}
-	
 }
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
-	if (!ensure(Barrel && Turret)) { return; }
+	if (!ensure(Barrel)) { return; }
 
 	auto BarrelRotation = Barrel->GetForwardVector().Rotation();	// Get current barrel rotation
 	auto AimAsRotator = AimDirection.Rotation();					// Get new barrel rotation
@@ -63,7 +56,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 
 void UTankAimingComponent::MoveTurrentTowards(FVector AimDirection)
 {
-	if (!ensure(Barrel && Turret)) { return; }
+	if (!ensure(Turret)) { return; }
 
 	auto TurrenRotation = Turret->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();

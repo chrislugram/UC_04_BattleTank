@@ -1,67 +1,32 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "BattleTank.h"
-#include "Public/Tank.h"
+#include "Public/TankAimingComponent.h"
 #include "TankAIController.h"
+
 
 #pragma region ENGINE
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
-
-	Tank = GetControlledTank();
-	PlayerTank = GetPlayerTank();
-
-	UE_LOG(LogTemp, Warning, TEXT("I'm %s, and aim to %s "), *Tank->GetName(), *PlayerTank->GetName());
 }
 
 void ATankAIController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	if (ensure(PlayerTank))
-	{
-		// Move towards the actor
-		MoveToActor(PlayerTank, AcceptanceRadius);
+	auto PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
+	auto ControlledTank = GetPawn();
 
-		// Aim
-		Tank->AimAt(PlayerTank->GetActorLocation());
+	if (!ensure(PlayerTank && ControlledTank)) { return; }
+	// Move towards the actor
+	MoveToActor(PlayerTank, AcceptanceRadius);
 
-		// Fire
-		Tank->Fire();
-	}
-}
-#pragma endregion
+	// Aim
+	auto AimingComponent = ControlledTank->FindComponentByClass<UTankAimingComponent>();
+	AimingComponent->AimAt(PlayerTank->GetActorLocation());
 
-#pragma region METHODS
-ATank* ATankAIController::GetControlledTank() const
-{
-	return Cast<ATank>(GetPawn());
-}
-
-ATank* ATankAIController::GetPlayerTank() const
-{
-	APlayerController* playerController = GetWorld()->GetFirstPlayerController();
-	if (!ensure(playerController))
-	{
-		UE_LOG(LogTemp, Error, TEXT("PlayerController NOT FOUND"));
-		return nullptr;
-	}
-
-	APawn* pawnPossesed = playerController->GetPawn();
-	if (!ensure(pawnPossesed))
-	{
-		UE_LOG(LogTemp, Error, TEXT("Pawn possesed NOT FOUND"));
-		return nullptr;
-	}
-
-	ATank* playerTank = Cast<ATank>(pawnPossesed);
-	if (!ensure(playerTank))
-	{
-		UE_LOG(LogTemp, Error, TEXT("Cast to ATank error"));
-		return nullptr;
-	}
-
-	return playerTank;
+	// Fire
+	//Tank->Fire();
 }
 #pragma endregion

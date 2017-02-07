@@ -3,7 +3,6 @@
 #include "BattleTank.h"
 #include "TankBarrel.h"
 #include "Projectile.h"
-#include "TankAimingComponent.h"
 #include "Tank.h"
 
 #pragma region CONSTRUCTORS
@@ -21,8 +20,6 @@ ATank::ATank()
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
-
-	//UE_LOG(LogTemp, Warning, TEXT("CLR: Tank BeginPlay"));
 }
 #pragma endregion
 
@@ -41,16 +38,10 @@ void ATank::Fire()
 			Barrel->GetSocketRotation(FName("Projectile"))
 			);
 
-		Projectile->LaunchProjectile(LaunchSpeed);
+		//Projectile->LaunchProjectile(LaunchSpeed);
 
 		LastFireTime = FPlatformTime::Seconds();
 	}
-}
-
-void ATank::AimAt(FVector AimLocation)
-{
-	if (ensure(TankAimingComponent))
-		TankAimingComponent->AimAt(AimLocation, LaunchSpeed);
 }
 #pragma endregion
 
