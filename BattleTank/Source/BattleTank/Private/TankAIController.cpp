@@ -24,9 +24,10 @@ void ATankAIController::Tick(float DeltaSeconds)
 
 	// Aim
 	auto AimingComponent = ControlledTank->FindComponentByClass<UTankAimingComponent>();
+	if (!ensure(AimingComponent)) { return; }
 	AimingComponent->AimAt(PlayerTank->GetActorLocation());
 
 	// Fire
-	//Tank->Fire();
+	AimingComponent->Fire();
 }
 #pragma endregion

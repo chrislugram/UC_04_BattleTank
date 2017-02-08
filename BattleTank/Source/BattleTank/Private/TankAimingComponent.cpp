@@ -3,6 +3,7 @@
 #include "BattleTank.h"
 #include "Public/TankBarrel.h"
 #include "Public/TankTurrent.h"
+#include "Projectile.h"
 #include "TankAimingComponent.h"
 
 #pragma region CONSTRUCTORS
@@ -40,6 +41,26 @@ void UTankAimingComponent::AimAt(FVector AimLocation)
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
 		MoveTurrentTowards(AimDirection);
+	}
+}
+
+void UTankAimingComponent::Fire()
+{
+	if (!ensure(Barrel)) { return; }
+
+	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeSeconds;
+
+	if (isReloaded)
+	{
+		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
+			ProjectileBlueprint,
+			Barrel->GetSocketLocation(FName("Projectile")),
+			Barrel->GetSocketRotation(FName("Projectile"))
+			);
+
+		Projectile->LaunchProjectile(LaunchSpeed);
+
+		LastFireTime = FPlatformTime::Seconds();
 	}
 }
 
