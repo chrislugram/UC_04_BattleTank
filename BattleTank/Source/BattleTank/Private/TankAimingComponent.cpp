@@ -13,11 +13,41 @@ UTankAimingComponent::UTankAimingComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	bWantsBeginPlay = true;
-	PrimaryComponentTick.bCanEverTick = false;
+	PrimaryComponentTick.bCanEverTick = true;
+}
+#pragma endregion
+
+#pragma region ENGINE
+void UTankAimingComponent::BeginPlay()
+{
+	LastFireTime = FPlatformTime::Seconds();
+}
+
+void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction)
+{
+	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeSeconds)
+	{
+		firingStatus = EFiringStatus::RELOADING;
+	}
+	else if (IsBarrelMoving())
+	{
+		firingStatus = EFiringStatus::AIMING;
+	}
+	else
+	{
+		firingStatus = EFiringStatus::LOCKED;
+	}
 }
 #pragma endregion
 
 #pragma region METHODS
+bool UTankAimingComponent::IsBarrelMoving()
+{
+	if (!ensure(Barrel)) { return false; }
+
+	return CurrentAimDirection.Equals(Barrel->GetForwardVector(), 0.01f);
+}
+
 void UTankAimingComponent::Initialise(UTankBarrel* barrel, UTankTurrent* turret)
 {
 	Barrel = barrel;
@@ -38,9 +68,9 @@ void UTankAimingComponent::AimAt(FVector AimLocation)
 
 	if (result)
 	{
-		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
-		MoveBarrelTowards(AimDirection);
-		MoveTurrentTowards(AimDirection);
+		CurrentAimDirection = OutLaunchVelocity.GetSafeNormal();
+		MoveBarrelTowards();
+		MoveTurrentTowards();
 	}
 }
 
@@ -64,23 +94,23 @@ void UTankAimingComponent::Fire()
 	}
 }
 
-void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
+void UTankAimingComponent::MoveBarrelTowards()
 {
 	if (!ensure(Barrel)) { return; }
 
 	auto BarrelRotation = Barrel->GetForwardVector().Rotation();	// Get current barrel rotation
-	auto AimAsRotator = AimDirection.Rotation();					// Get new barrel rotation
+	auto AimAsRotator = CurrentAimDirection.Rotation();					// Get new barrel rotation
 	auto DeltaRotator = AimAsRotator - BarrelRotation;				// Delta between both rotations
 
 	Barrel->Elevate(DeltaRotator.Pitch);
 }
 
-void UTankAimingComponent::MoveTurrentTowards(FVector AimDirection)
+void UTankAimingComponent::MoveTurrentTowards()
 {
 	if (!ensure(Turret)) { return; }
 
 	auto TurrenRotation = Turret->GetForwardVector().Rotation();
-	auto AimAsRotator = AimDirection.Rotation();
+	auto AimAsRotator = CurrentAimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - TurrenRotation;
 
 	Turret->Rotate(DeltaRotator.Yaw);
